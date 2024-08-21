@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.background-navbar{
+  background-color: #556b2f;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  margin: 10px 5px;
+  border: 3px solid #556b2f; 
+  color: black;
+  background-color: rgb(162, 231, 162);
+}
