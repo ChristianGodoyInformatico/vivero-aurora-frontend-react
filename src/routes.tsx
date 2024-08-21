@@ -10,6 +10,7 @@ import ManageCategories from './components/ManageCategories';
 import ManageProducts from './components/ManageProducts';
 import CategoryForm from './components/CategoryForm';
 import ProductForm from './components/ProductForm';
+import MediaManager from './components/MediaManager';
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin/categories" element={<ManageCategories />} />
         <Route path="/admin/products" element={<ManageProducts />} />
+        <Route path="/admin/media" element={<MediaManager />} />
         <Route path="/admin/categories/create" element={<CategoryForm />} />
         <Route path="/admin/categories/edit/:id" element={<CategoryForm />} />
         <Route path="/admin/products/create" element={<ProductForm />} />

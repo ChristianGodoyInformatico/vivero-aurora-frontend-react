@@ -15,15 +15,13 @@ export interface ImageInterface {
     path: string
 }
 
-const ProductCard: React.FC<Product> = ({ name, price, image, stockStatus }) => {
-    const urlName = encodeURIComponent(name.toLowerCase().replace(/ /g, '-'));
+const ProductCard: React.FC<Product> = ({ id, name, price, image, stockStatus }) => {
 
     return (
         <div className="border rounded-lg overflow-hidden shadow-lg">
-            <Link to={`/products/${urlName}`} className="mt-2 block text-blue-500">
+            <Link to={`/products/${id}`} className="mt-2 block text-blue-500">
                 <div className="relative">
                     <img
-                        // src={ imageUrl} 
                         src={`http://localhost:3000/api/image/see-image/${image.fileName}`}
                         alt={name}
                         className="w-full h-40 object-cover" />

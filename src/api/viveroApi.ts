@@ -10,7 +10,7 @@ const viveroApi = axios.create({
 });
 
 // Todo: configurar interceptores
-viveroApi.interceptors.request.use( (config: any) => {
+viveroApi.interceptors.request.use( (config: any) => { 
     config.headers = {
         ...config.headers,
         'x-token': localStorage.getItem('token')

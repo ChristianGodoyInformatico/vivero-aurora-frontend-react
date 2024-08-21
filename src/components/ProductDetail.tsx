@@ -27,6 +27,7 @@ const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
+    console.log('el id del producto recibido:', id);
     // Realizar la llamada a la API usando el ID del producto
     fetch(`http://localhost:3000/api/product/${id}`)
       .then(response => response.json())

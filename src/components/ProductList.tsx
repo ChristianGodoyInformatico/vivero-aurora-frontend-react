@@ -17,7 +17,6 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ type, categoryId }) => {
-  console.log('que trae el categoryId:', categoryId);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const ProductList: React.FC<ProductListProps> = ({ type, categoryId }) => {
 
     viveroApi.get(url)
       .then(response => {
-        console.log('cual es la respuesta?', response);
         setProducts(response.data)
       })
       .catch(error => console.error('Error:', error));
