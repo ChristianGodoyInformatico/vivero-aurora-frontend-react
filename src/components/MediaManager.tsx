@@ -16,7 +16,6 @@ const MediaManager: React.FC = () => {
 
   const fetchImages = async () => {
     const response = await viveroApi.get('/image');
-    console.log('que llega en el response?', response);
     setImages(response.data);
   };
 
@@ -57,23 +56,7 @@ const MediaManager: React.FC = () => {
     });
   };
 
-//   return (
-//     <div>
-//       <h1>Gestión de Medios</h1>
-//       <input type="file" onChange={handleFileChange} />
-//       <button onClick={handleUpload}>Subir Imagen</button>
-//       <div className="grid grid-cols-4 gap-4 mt-4">
-//         {images.map((image: any) => (
-//           <div key={image.url} className="p-2 border">
-//             <img src={`${apiUrl}/image/see-image/${image.fileName}`} alt={image.name} className="w-full h-32 object-cover" />
-//             <p>{image.name}</p>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-
-return (
+  return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-8">Gestión de Medios</h1>
 

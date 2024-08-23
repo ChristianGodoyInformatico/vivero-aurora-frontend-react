@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getEnvVariables } from '../helpers/getEnvVariables';
+import viveroApi from '../api/viveroApi';
+import Swal from 'sweetalert2';
 const { apiUrl } = getEnvVariables()
 
 interface Product {
@@ -16,20 +18,38 @@ const ManageProducts: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        getProducts();
+    }, []);
+
+    const getProducts = () => {
         // Obtener los productos desde el backend
         fetch(`${apiUrl}/product`)
             .then((response) => response.json())
             .then((data) => setProducts(data))
             .catch((error) => console.error('Error:', error));
-    }, []);
+    }
 
     const handleEdit = (id: string) => {
         navigate(`/admin/products/edit/${id}`);
-        console.log(`Editar producto con ID: ${id}`);
     };
 
     const handleDelete = (id: string) => {
-        console.log(`Eliminar producto con ID: ${id}`);
+        Swal.fire({
+            title: '¿Estás seguro que desea eliminarla?',
+            text: "Esta acción no se puede deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminarla',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await viveroApi.delete(`/product/${id}`);
+                Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');
+                getProducts(); // refrescar la carga de productos
+            }
+        });
     };
 
     const filteredProducts = products.filter((product) =>
@@ -40,9 +60,14 @@ const ManageProducts: React.FC = () => {
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Gestionar Productos</h1>
             <div className="flex justify-between items-center mb-4">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                {/* <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
                     Crear Nuevo Producto
-                </button>
+                </button> */}
+
+                <Link to="/admin/products/create"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    Crear Nuevo Producto
+                </Link>
                 <input
                     type="text"
                     placeholder="Buscar..."

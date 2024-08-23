@@ -29,7 +29,6 @@ const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    console.log('el id del producto recibido:', id);
     // Realizar la llamada a la API usando el ID del producto
     fetch(`${apiUrl}/product/${id}`)
       .then(response => response.json())
@@ -40,8 +39,6 @@ const ProductDetail: React.FC = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
-
-  console.log('el producto es:', product);
 
   return (
     <div className="container mx-auto p-4">

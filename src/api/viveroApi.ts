@@ -3,8 +3,6 @@ import { getEnvVariables } from '../helpers/getEnvVariables';
 
 const { apiUrl } = getEnvVariables()
 
-console.log('que obtengo de API_VIVERO_URL', apiUrl);
-
 const viveroApi = axios.create({
     baseURL: apiUrl
 });

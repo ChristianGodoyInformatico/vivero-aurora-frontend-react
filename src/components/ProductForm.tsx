@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import viveroApi from '../api/viveroApi';
 import { Image } from '../interfaces/image';
 import { getEnvVariables } from '../helpers/getEnvVariables';
+import Swal from 'sweetalert2';
 const { apiUrl } = getEnvVariables()
 
 interface Product {
@@ -14,6 +15,13 @@ interface Product {
     size: string;
     stockEnabled: boolean;
     image?: Image;  // Referencia a la imagen seleccionada
+    categoryIds: string[];
+}
+
+interface Category {
+    _id: string;
+    name: string;
+    description: string;
 }
 
 const ProductForm: React.FC = () => {
@@ -27,9 +35,11 @@ const ProductForm: React.FC = () => {
         description: '',
         size: '',
         stockEnabled: true,
+        categoryIds: []
     });
     const [isEditing, setIsEditing] = useState(false);
     const [images, setImages] = useState<Image[]>([]);  // Lista de imágenes disponibles
+    const [categories, setCategories] = useState<Category[]>([]);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [showImageSelector, setShowImageSelector] = useState(false);
 
@@ -39,6 +49,7 @@ const ProductForm: React.FC = () => {
             fetchProduct();
         }
         fetchImages();
+        fetchCategories();
     }, [id]);
 
     // Obtener el producto actual para edición
@@ -64,6 +75,34 @@ const ProductForm: React.FC = () => {
         }
     };
 
+    // Obtener todas las categorías disponibles
+    const fetchCategories = async () => {
+        try {
+            const response = await viveroApi.get('/category'); // Ajusta la ruta según tu backend
+            setCategories(response.data);
+        } catch (error) {
+            console.error('Error al obtener las categorías:', error);
+        }
+    };
+
+    // Manejar la selección de categorías
+    const toggleCategorySelection = (categoryId: string) => {
+        console.log('la categoria id seleccionada:', categoryId);
+        if (product.categoryIds.includes(categoryId)) {
+            // Si ya está seleccionada, la eliminamos
+            setProduct((prevProduct) => ({
+                ...prevProduct,
+                categoryIds: prevProduct.categoryIds.filter((id) => id !== categoryId),
+            }));
+        } else {
+            // Si no está seleccionada, la agregamos
+            setProduct((prevProduct) => ({
+                ...prevProduct,
+                categoryIds: [...prevProduct.categoryIds, categoryId],
+            }));
+        }
+    };
+
     // Manejar la selección de imagen
     const handleImageSelect = (image: Image) => {
         setProduct({ ...product, image });
@@ -74,6 +113,18 @@ const ProductForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // Validar que una imagen esté seleccionada
+        if (!product.image) {
+            // Mostrar alerta usando SweetAlert2
+            Swal.fire({
+                icon: 'error',
+                title: 'Falta la imagen',
+                text: 'Debes seleccionar una imagen para continuar.',
+                confirmButtonText: 'Aceptar',
+            });
+            return; // Detener la ejecución si no hay una imagen seleccionada
+        }
+
         const productData = {
             name: product.name,
             price: product.price,
@@ -82,6 +133,7 @@ const ProductForm: React.FC = () => {
             size: product.size,
             stockEnabled: product.stockEnabled,
             image: product.image?._id,  // Asegúrate de enviar el ID de la imagen seleccionada
+            categoryIds: product.categoryIds,
         };
 
         try {
@@ -153,6 +205,27 @@ const ProductForm: React.FC = () => {
                         className="w-full px-4 py-2 border rounded"
                     />
                 </div>
+
+                {/* Sección para seleccionar categorías */}
+                <div className="mb-4">
+                    <label className="block text-gray-700">Categorías</label>
+                    <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-6'>
+                        {categories.map((category) => (
+                            <div
+                                key={category._id}
+                                className={`p-4 border rounded-lg cursor-pointer ${product.categoryIds.includes(category._id)
+                                    ? 'bg-green-200 border-green-500'
+                                    : 'bg-white'
+                                    }`}
+                                onClick={() => toggleCategorySelection(category._id)}
+                            >
+                                <h3 className="text-lg font-semibold">{category.name}</h3>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+
                 <div className="mb-4">
                     <label className="block text-gray-700">Disponible</label>
                     <input
