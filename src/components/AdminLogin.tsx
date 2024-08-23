@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 const AdminLogin: React.FC = () => {
     const [email, setUsername] = useState('');
@@ -15,7 +17,7 @@ const AdminLogin: React.FC = () => {
 
         try {
             // Realizar la solicitud POST al backend para el login
-            const response = await fetch('http://localhost:3000/api/auth/login', {
+            const response = await fetch(`${apiUrl}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Product {
     id: number;
@@ -22,7 +24,7 @@ const ProductCard: React.FC<Product> = ({ id, name, price, image, stockStatus })
             <Link to={`/products/${id}`} className="mt-2 block text-blue-500">
                 <div className="relative">
                     <img
-                        src={`http://localhost:3000/api/image/see-image/${image.fileName}`}
+                        src={`${apiUrl}/image/see-image/${image.fileName}`}
                         alt={name}
                         className="w-full h-40 object-cover" />
                     {stockStatus === 'out of stock' && (

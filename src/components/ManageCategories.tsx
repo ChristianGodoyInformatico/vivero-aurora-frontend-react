@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Category {
     _id: string;
@@ -14,7 +16,7 @@ const ManageCategories: React.FC = () => {
 
     useEffect(() => {
         // Obtener las categorías desde el backend
-        fetch('http://localhost:3000/api/category')
+        fetch(`${apiUrl}/category`)
             .then((response) => response.json())
             .then((data) => setCategories(data))
             .catch((error) => console.error('Error:', error));

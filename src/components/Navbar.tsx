@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Category {
   _id: string;
@@ -14,7 +16,7 @@ const Navbar: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/category', {
+    fetch(`${apiUrl}/category`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductList from './ProductList';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Category {
   _id: string;
@@ -21,7 +23,7 @@ const CategoryDetail: React.FC = () => {
   const [category, setCategory] = useState<Category | null>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/category/${id}`)
+    fetch(`${apiUrl}/category/${id}`)
       .then(response => response.json())
       .then(data => setCategory(data))
       .catch(error => console.error('Error:', error));
@@ -33,7 +35,7 @@ const CategoryDetail: React.FC = () => {
     <div className="container mx-auto px-4">
       <div className="relative w-full h-96"> 
         <img
-          src={`http://localhost:3000/api/image/see-image/${category.principalImage ? category.principalImage.fileName : 'https://via.placeholder.com/150'}`} 
+          src={`${apiUrl}/image/see-image/${category.principalImage ? category.principalImage.fileName : 'https://via.placeholder.com/150'}`} 
           alt="Fondo"
           className="w-full h-full object-cover"
         />

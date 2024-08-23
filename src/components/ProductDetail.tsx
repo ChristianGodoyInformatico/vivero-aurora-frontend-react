@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Product {
   id: string;
@@ -29,7 +31,7 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     console.log('el id del producto recibido:', id);
     // Realizar la llamada a la API usando el ID del producto
-    fetch(`http://localhost:3000/api/product/${id}`)
+    fetch(`${apiUrl}/product/${id}`)
       .then(response => response.json())
       .then(data => setProduct(data))
       .catch(error => console.error('Error:', error));
@@ -45,7 +47,7 @@ const ProductDetail: React.FC = () => {
     <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row items-center">
         <div className="w-full md:w-1/2 p-4">
-          <img src={`http://localhost:3000/api/image/see-image/${product.image.fileName}`} alt={product.name} className="w-full h-auto object-cover rounded shadow-md" />
+          <img src={`${apiUrl}/image/see-image/${product.image.fileName}`} alt={product.name} className="w-full h-auto object-cover rounded shadow-md" />
         </div>
         <div className="w-full md:w-1/2 p-4">
           <h1 className="text-3xl font-bold mb-4">{product.name}</h1>

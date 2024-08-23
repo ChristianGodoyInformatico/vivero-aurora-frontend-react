@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Category from './Category';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Category {
   _id: string;
@@ -19,7 +21,7 @@ const CategoryList: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/category', {
+    fetch(`${apiUrl}/category`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

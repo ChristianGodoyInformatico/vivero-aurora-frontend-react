@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { getEnvVariables } from '../helpers/getEnvVariables';
+const { apiUrl } = getEnvVariables()
 
 interface Product {
     _id: string;
@@ -15,7 +17,7 @@ const ManageProducts: React.FC = () => {
 
     useEffect(() => {
         // Obtener los productos desde el backend
-        fetch('http://localhost:3000/api/product')
+        fetch(`${apiUrl}/product`)
             .then((response) => response.json())
             .then((data) => setProducts(data))
             .catch((error) => console.error('Error:', error));
