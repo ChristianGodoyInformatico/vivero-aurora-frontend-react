@@ -37,6 +37,10 @@ const Home: React.FC = () => {
             Bienvenidos a nuestro vivero, un rincón donde la naturaleza y el compromiso con el medio ambiente florecen juntos. Aquí, nos dedicamos a promover el cultivo de árboles nativos, vitales para la preservación de nuestra biodiversidad y la salud de nuestro ecosistema.
           </p>
         </div>
+
+        <br/>
+        <br/>
+        <h1 className="text-2xl font-bold mb-4 text-center">Nuestros productos mas vistos</h1>
         <ProductList type='top' />
         <div className='my-10'></div>
         {/* Snippet de Google Maps */}
